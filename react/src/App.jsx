@@ -53,8 +53,10 @@ function App() {
     else if (action === 'update') {
       console.log("Updating:", { name, email, password });
     } else if (action === 'delete') {
+      deleteById(selectedRow)
       console.log("Deleting:", { name, email, password });
     }
+    getCustomers()
     handleClear()
   };
 
