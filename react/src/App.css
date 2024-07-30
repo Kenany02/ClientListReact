@@ -33,3 +33,6 @@ td {
 .button-primary:hover {
   background-color: #000000;
 }
+.bold-row {
+  font-weight: bold;
+}
