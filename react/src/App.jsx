@@ -3,16 +3,25 @@ import './App.css'
 
 
 const data = [
-  { id: 1, name: "Test1", email: "Test1@gmail.com", password: "Pass1" },
-  { id: 2, name: "Test2", email: "Test2@gmail.com", password: "Pass2" },
-  { id: 3, name: "Test3", email: "Test3@gmail.com", password: "Pass3" },
+  { "id": 1, "name": "Test1", "email": "Test1@gmail.com", "password": "Pass1" },
+  { "id": 2, "name": "Test2", "email": "Test2@gmail.com", "password": "Pass2" },
+  { "id": 3, "name": "Test3", "email": "Test3@gmail.com", "password": "Pass3" }
 ]
+
 
 let id = -1;
 
 
 
 function App() {
+
+  const handleClear = () =>{
+    setName("");
+    setEmail("");
+    setPassword("");
+    setSelectedRow(-1)
+
+  }
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -23,28 +32,18 @@ function App() {
 
     if (id == val.id) {
       console.log("Same item clicked")
-      setName("");
-      setEmail("");
-      setPassword("");
       id = -1;
       setSelectedRow(-1);
-
+      handleClear();
 
     } else {
       setSelectedRow(val.id);
-
-
       console.log('List was clicked this is id: ' + val.id)
       setName(val.name)
       setEmail(val.email)
       setPassword(val.password)
-
       id = val.id;
     }
-
-
-
-
   }
 
   const handleSubmit = (action) => {
@@ -58,9 +57,7 @@ function App() {
     } else if (action === 'delete') {
       console.log("Deleting:", { name, email, password });
     }
-    setName("");
-    setEmail("");
-    setPassword("");
+    handleClear()
   };
 
 
@@ -73,18 +70,18 @@ function App() {
       <h2> Client List</h2>
 
       <table>
-      <tbody>
-        {data.map((val, key) => (
-          <tr key={val.id}
+        <tbody>
+          {data.map((val, key) => (
+            <tr key={val.id}
               className={selectedRow === val.id ? 'bold-row' : ''}
               onClick={() => handleClick(val)}>
-            <td>{val.name}</td>
-            <td>{val.email}</td>
-            <td>{val.password}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+              <td>{val.name}</td>
+              <td>{val.email}</td>
+              <td>{val.password}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
 
 
@@ -114,6 +111,8 @@ function App() {
           <button className="button-primary" onClick={() => handleSubmit('add')}>Add</button>
           <button className="button-primary" onClick={() => handleSubmit('update')}>Update</button>
           <button className="button-primary" onClick={() => handleSubmit('delete')}>Delete</button>
+          <button className="button-primary" onClick={() => handleClear()}>Cancel</button>
+
         </div>
       </div>
 
