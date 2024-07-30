@@ -4,6 +4,8 @@ import {getAll, get, deleteById, post, put } from './memdb.js'
 
 
 let id = -1;
+let isClicked = "Add"
+
 function App() {
   const handleClear = () =>{
     setName("");
@@ -32,6 +34,7 @@ function App() {
   const handleClick = (val) => {
     if (id == val.id) {
       id = -1;
+      isClicked = "Add"
       setSelectedRow(-1);
       handleClear();
     } else {
@@ -41,16 +44,17 @@ function App() {
       setEmail(val.email)
       setPassword(val.password)
       id = val.id;
+      isClicked = "Update"
     }
   }
 
   const handleSubmit = (action) => {
-    if (action === 'add') {
+    if (action === 'Add') {
 
 
       console.log("Adding:", { name, email, password });
     }
-    else if (action === 'update') {
+    else if (action === 'Update') {
       console.log("Updating:", { name, email, password });
     } else if (action === 'delete') {
       deleteById(selectedRow)
@@ -108,8 +112,7 @@ function App() {
           style={{ width: "calc(95% / 3)" }}
         />
         <div>
-          <button className="button-primary" onClick={() => handleSubmit('add')}>Add</button>
-          <button className="button-primary" onClick={() => handleSubmit('update')}>Update</button>
+          <button className="button-primary" onClick={() => handleSubmit('add')}>{isClicked}</button>
           <button className="button-primary" onClick={() => handleSubmit('delete')}>Delete</button>
           <button className="button-primary" onClick={() => handleClear()}>Cancel</button>
 
