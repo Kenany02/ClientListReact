@@ -1,20 +1,10 @@
 import React, { useState, useEffect } from "react";
 import './App.css'
-
-
-const data = [
-  { "id": 1, "name": "Test1", "email": "Test1@gmail.com", "password": "Pass1" },
-  { "id": 2, "name": "Test2", "email": "Test2@gmail.com", "password": "Pass2" },
-  { "id": 3, "name": "Test3", "email": "Test3@gmail.com", "password": "Pass3" }
-]
+import {getAll, get, deleteById, post, put } from './memdb.js'
 
 
 let id = -1;
-
-
-
 function App() {
-
   const handleClear = () =>{
     setName("");
     setEmail("");
@@ -27,15 +17,23 @@ function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [selectedRow, setSelectedRow] = useState("");
+  const [customers, setCustomers] = useState([])
+
+  useEffect(() => {
+    getCustomers();
+  }, []);
+
+  const getCustomers = () => {
+    const allCustomers = getAll();
+    setCustomers(allCustomers);
+  };
+
 
   const handleClick = (val) => {
-
     if (id == val.id) {
-      console.log("Same item clicked")
       id = -1;
       setSelectedRow(-1);
       handleClear();
-
     } else {
       setSelectedRow(val.id);
       console.log('List was clicked this is id: ' + val.id)
@@ -71,7 +69,7 @@ function App() {
 
       <table>
         <tbody>
-          {data.map((val, key) => (
+          {customers.map((val, key) => (
             <tr key={val.id}
               className={selectedRow === val.id ? 'bold-row' : ''}
               onClick={() => handleClick(val)}>
