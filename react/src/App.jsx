@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import './App.css';
 import { getAll, get, deleteById, post, put } from './memdb.js';
 
-let id = -1;
+
 let isClicked = "Add";
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
     setName("");
     setEmail("");
     setPassword("");
-    setSelectedRow(-1);
+    setSelectedRow(null);
     isClicked = "Add";
   }
 
@@ -30,27 +30,34 @@ function App() {
   };
 
   const handleClick = (val) => {
-    if (id === val.id) {
-      id = -1;
+    if (selectedRow === val.id) {
       handleClear();
     } else {
       setSelectedRow(val.id);
       setName(val.name);
       setEmail(val.email);
       setPassword(val.password);
-      id = val.id;
       isClicked = "Update";
     }
   }
 
   const handleSubmit = (action) => {
-    if (action === 'Add') {
-      console.log("Adding:", { name, email, password });
+    if (action === 'save') {
+      if(isClicked === 'Add' && name && email && password ){
+        let curIndex = customers.length
+        post({curIndex, name, email, password})
+        
+        
+
+      }else{
+         put(selectedRow, {selectedRow, name, email, password})
+
+      }
+
     } else if (action === 'Update') {
       console.log("Updating:", { name, email, password });
     } else if (action === 'delete') {
       deleteById(selectedRow);
-      console.log("Deleting:", { name, email, password });
     }
     getCustomers();
     handleClear();
@@ -74,31 +81,35 @@ function App() {
           </tbody>
         </table>
         <div className="form-container">
+        <h2>{isClicked}</h2>
+
           <input
             type="text"
             placeholder="Name"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(change) => setName(change.target.value)}
             className="input-field"
           />
           <input
             type="text"
             placeholder="Email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(change) => setEmail(change.target.value)}
             className="input-field"
           />
           <input
             type="password"
             placeholder="Password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(change) => setPassword(change.target.value)}
             className="input-field"
           />
           <div className="button-group">
-            <button className="button-primary" onClick={() => handleSubmit(isClicked)}>{isClicked}</button>
+          
             <button className="button-primary" onClick={() => handleSubmit('delete')}>Delete</button>
             <button className="button-primary" onClick={() => handleClear()}>Cancel</button>
+            <button className="button-primary" onClick={() => handleSubmit('save')}>Save</button>
+
           </div>
         </div>
       </div>
