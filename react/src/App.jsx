@@ -43,18 +43,18 @@ function App() {
 
   const handleSubmit = (action) => {
     if (action === 'save') {
-      if(isClicked === 'Add' && name && email && password ){
-        let curIndex = customers.length
-        post({curIndex, name, email, password})
+      if(name && email && password){
+        if(isClicked === 'Add' && name && email && password ){
+          let curIndex = customers.length
+          post({id: curIndex, name, email, password})
         
-        
+        }else{
+          put(selectedRow,  { id: selectedRow, name, email, password }); 
+        }
 
-      }else{  
-
-
-        put(selectedRow,  { id: selectedRow, name, email, password }); 
 
       }
+    
 
     } else if (action === 'Update') {
       console.log("Updating:", { name, email, password });
