@@ -10,7 +10,7 @@ function App() {
     setName("");
     setEmail("");
     setPassword("");
-    setSelectedRow(null);
+    setSelectedRow(-1);
     isClicked = "Add";
   }
 
@@ -49,8 +49,10 @@ function App() {
         
         
 
-      }else{
-         put(selectedRow, {selectedRow, name, email, password})
+      }else{  
+
+
+        put(selectedRow,  { id: selectedRow, name, email, password }); 
 
       }
 
