@@ -3,7 +3,7 @@ import React from "react";
 function CustomerList({ customers, selectedRow, handleClick }) {
   return (
     <div>
-    <h2>Client List</h2>
+    <h2>Kenan's Client List</h2>
     <div className="table-container">
     <table>
       <tbody>
