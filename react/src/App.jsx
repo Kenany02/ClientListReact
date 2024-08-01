@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import './App.css';
 import { getAll, get, deleteById, post, put } from './memdb.js';
+import CustomerList from "./CustomerList.jsx";
+import CustomerAddUpdateForm from "./CustomerAddUpdateForm.jsx";
 
 
 let isClicked = "Add";
@@ -51,11 +53,7 @@ function App() {
         }else{
           put(selectedRow,  { id: selectedRow, name, email, password }); 
         }
-
-
       }
-    
-
     } else if (action === 'Update') {
       console.log("Updating:", { name, email, password });
     } else if (action === 'delete') {
@@ -68,52 +66,24 @@ function App() {
   return (
     <div className="App">
       <div className="card-container">
-        <h2>Client List</h2>
-        <table>
-          <tbody>
-            {customers.map((val) => (
-              <tr key={val.id}
-                className={selectedRow === val.id ? 'bold-row' : ''}
-                onClick={() => handleClick(val)}>
-                <td>{val.name}</td>
-                <td>{val.email}</td>
-                <td>{val.password}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <div className="form-container">
-        <h2>{isClicked}</h2>
 
-          <input
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(change) => setName(change.target.value)}
-            className="input-field"
-          />
-          <input
-            type="text"
-            placeholder="Email"
-            value={email}
-            onChange={(change) => setEmail(change.target.value)}
-            className="input-field"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(change) => setPassword(change.target.value)}
-            className="input-field"
-          />
-          <div className="button-group">
-          
-            <button className="button-primary" onClick={() => handleSubmit('delete')}>Delete</button>
-            <button className="button-primary" onClick={() => handleClear()}>Cancel</button>
-            <button className="button-primary" onClick={() => handleSubmit('save')}>Save</button>
-
-          </div>
-        </div>
+      <CustomerList
+          customers={customers}
+          selectedRow={selectedRow}
+          handleClick={handleClick}
+        />
+      
+        <CustomerAddUpdateForm
+          name={name}
+          setName={setName}
+          email={email}
+          setEmail={setEmail}
+          password={password}
+          setPassword={setPassword}
+          isClicked={isClicked}
+          handleSubmit={handleSubmit}
+          handleClear={handleClear}
+        />
       </div>
     </div>
   );
